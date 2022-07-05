@@ -65,15 +65,18 @@ public class Methodd {
     }
 
     public void m4() throws SQLException {
-        String query = "SELECT COUNT(DK.maDK) AS [Toyota] FROM [Dang Ky] DK INNER JOIN [Hop Dong] HD \n" +
+        String query = "SELECT NCC.tenNCC, COUNT(DK.soHopDong) AS [So luong] FROM [Dang Ky] DK INNER JOIN [Hop Dong] HD \n" +
                 "ON DK.soHopDong = HD.soHopDong INNER JOIN [Nha Cung Cap] NCC \n" +
                 "ON HD.maNCC = NCC.maNCC\n" +
-                "WHERE DK.ngayBatDau = '2022/06/21' ";
+                "WHERE DK.ngayBatDau = '2022/06/21'\n" +
+                "GROUP BY NCC.tenNCC";
         Connection connection = getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
         while (resultSet.next()) {
-
+            String tenNCC = resultSet.getString("tenNCC");
+            int so = resultSet.getInt("So Luong");
+            System.out.println("Tên nhà cung cấp: " + tenNCC + " Số lần đăng ký: " + so);
         }
     }
 
